@@ -1,9 +1,15 @@
-import { getAllFilesByType, getFileBySlug } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote";
+
+import { getAllFilesByType, getFileBySlug } from "@/lib/mdx";
+import MDXComponents from "@/components/MDXComponents";
 
 const PostPage = ({ mdxSource, frontmatter }) => {
   return <>
-    <MDXRemote {...mdxSource} />
+    <MDXRemote 
+      {...mdxSource}
+      components={{
+        ...MDXComponents,
+      }} />
   </>;
 }
 
@@ -13,8 +19,8 @@ export async function getStaticPaths() {
   return {
     paths: posts.map(post => ({
       params: {
-        slug: post.slug.replace(/\.mdx/, "")
-      }
+        slug: post.slug.replace(/\.mdx/, ""),
+      },
     })),
     fallback: false,
   };
